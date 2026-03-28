@@ -12,7 +12,7 @@ The app uses:
 - `Passport Local` for username/password authentication
 - `express-session` and `connect-flash` for sessions and flash messages
 - Bootstrap and Font Awesome from CDN for UI styling
-
+# project is live : https://ecommercestore-mvtb.onrender.com/Ecommerce/home
 ## Main Features
 
 - User registration and login
