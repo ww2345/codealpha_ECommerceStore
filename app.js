@@ -20,7 +20,7 @@ const logoutRoute = require("./routes/logout");
 
 const app = express();
 const port = Number.parseInt(process.env.PORT, 10) || 3000;
-const mongoUri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/ECommerceStore";
+const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/ECommerceStore";
 const sessionSecret = process.env.SESSION_SECRET || "change-this-session-secret";
 const isProduction = process.env.NODE_ENV === "production";
 const MongoStore = connectMongo.MongoStore || connectMongo.default || connectMongo;

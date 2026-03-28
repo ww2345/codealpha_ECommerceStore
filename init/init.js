@@ -3,7 +3,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const Product = require("../models/product");
 const products = require("./data");
-const mongoUri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/ECommerceStore";
+const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/ECommerceStore";
 
 (async () => {
   await mongoose.connect(mongoUri);
