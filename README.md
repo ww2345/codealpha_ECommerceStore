@@ -158,15 +158,3 @@ The current codebase works, but there are a few setup details worth knowing:
 - The cart is stored in the session, not in MongoDB, so it is tied to the current session.
 - A UPI payment ID is hardcoded in the cart route for checkout UI.
 
-## Suggested Next Improvements
-
-- Move secrets and database configuration to environment variables
-- Add npm scripts such as `start`, `dev`, and `seed`
-- Add validation for auth and product flows
-- Add error-handling middleware
-- Add automated tests
-- Persist carts/orders in the database
-
-## Authoring Notes
-
-This README was written to match the project as it exists in the repository today. If you later add environment variables, scripts, or new routes, update this file so setup stays accurate.
