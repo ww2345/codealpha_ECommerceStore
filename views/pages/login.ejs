@@ -1,0 +1,21 @@
+<% layout("layout/boilerplate") -%>
+
+  <link rel="stylesheet" href="/css/login.css" />
+  <main class="login-page">
+    <div class="login-card">
+      <h1 class="login-title">Login</h1>
+      <p class="login-subtitle">Welcome back. Please sign in to continue.</p>
+
+      <form class="login-form" action="/Ecommerce/login" method="POST">
+        <label class="login-label" for="username">Username</label>
+        <input class="login-input" id="username" name="username" type="text" autocomplete="username" required />
+
+        <label class="login-label" for="password">Password</label>
+        <input class="login-input" id="password" name="password" type="password" autocomplete="current-password"
+          required />
+
+        <button class="login-button" type="submit">Sign in</button>
+        <a href="/Ecommerce/register">Create new account</a>
+      </form>
+    </div>
+  </main>

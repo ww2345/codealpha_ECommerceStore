@@ -1,0 +1,29 @@
+<% layout("layout/boilerplate") -%>
+
+  <link rel="stylesheet" href="/css/login.css" />
+  <main class="login-page">
+    <div class="login-card">
+      <h1 class="login-title">Create account</h1>
+      <p class="login-subtitle">Fill the details to register.</p>
+
+      <form class="login-form" action="/Ecommerce/register" method="POST">
+        <label class="login-label" for="username">Username</label>
+        <input class="login-input" id="username" name="username" type="text" autocomplete="username" required />
+
+        <label class="login-label" for="email">Email</label>
+        <input class="login-input" id="email" name="email" type="email" autocomplete="email" required />
+
+        <label class="login-label" for="password">Password</label>
+        <input class="login-input" id="password" name="password" type="password" autocomplete="new-password" required />
+
+
+
+        <button class="login-button" type="submit">Register</button>
+
+        <div class="login-links">
+          <span class="login-hint">Already have an account?</span>
+          <a href="/Ecommerce/login">Login</a>
+        </div>
+      </form>
+    </div>
+  </main>

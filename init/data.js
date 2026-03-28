@@ -1,0 +1,80 @@
+module.exports = [
+  {
+    title: "Wireless Headphones",
+    description: "Bluetooth over-ear headphones with deep bass.",
+    price: 1999,
+    category: "Computers",
+    imageUrls: ["https://images.unsplash.com/photo-1637780852590-8ab27248ec41?q=80&w=465&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+  },
+  {
+    title: "Running Shoes",
+    description: "Lightweight shoes for daily running and gym.",
+    price: 2499,
+    category: "Sports",
+    imageUrls: ["https://images.unsplash.com/photo-1585944672394-4c58a015c1fb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cnVubmluZyUyMHNob2VzfGVufDB8fDB8fHww"],
+  },
+  {
+    title: "Smart Watch",
+    description: "Fitness tracking, notifications, and heart rate monitor.",
+    price: 3299,
+    category: "Sports",
+    imageUrls: ["https://images.unsplash.com/photo-1617043983671-adaadcaa2460?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c21hcnQlMjB3YXRjaHxlbnwwfHwwfHx8MA%3D%3D"],
+  },
+  {
+    title: "Smartphone",
+    description: "6.5-inch display, 128GB storage, dual camera.",
+    price: 14999,
+    category: "Computers",
+    imageUrls: ["https://images.unsplash.com/photo-1575695342320-d2d2d2f9b73f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8c21hcnQlMjBwaG9uZXxlbnwwfHwwfHx8MA%3D%3D"],
+  },
+  {
+    title: "Coffee Mug",
+    description: "Ceramic mug, 350ml, heat resistant.",
+    price: 899,
+    category: "Beauty",
+    imageUrls: ["https://images.unsplash.com/photo-1641327512258-375610e81f86?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGNvZmZlJTIwbXVnfGVufDB8fDB8fHww"],
+  },
+  {
+    title: "Power Bank 10000mAh",
+    description: "Fast charging, dual USB output.",
+    price: 1299,
+    category: "Computers",
+    imageUrls: ["https://images.unsplash.com/photo-1594843665794-446ce915d840?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cG93ZXIlMjBiYW5rfGVufDB8fDB8fHww"],
+  },
+  {
+    title: "Laptop Backpack",
+    description: "Water-resistant backpack for 15.6-inch laptops.",
+    price: 1799,
+    category: "Fashion",
+    imageUrls: ["https://images.unsplash.com/photo-1681334921874-5bafe8acf433?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGxhcHRvcCUyMGJhZ3BhY2t8ZW58MHx8MHx8fDA%3D"],
+  },
+  {
+    title: "Wireless Mouse",
+    description: "Ergonomic mouse with silent clicks.",
+    price: 699,
+    category: "Computers",
+    imageUrls: ["https://images.unsplash.com/photo-1760348213144-ca09c79214f8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdpcmVsZXNzJTIwbW91c2V8ZW58MHx8MHx8fDA%3D"],
+  },
+  {
+    title: "Mechanical Keyboard",
+    description: "Blue switches with RGB backlight.",
+    price: 2799,
+    category: "Computers",
+    imageUrls: ["https://images.unsplash.com/photo-1625130694338-4110ba634e59?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGtleWJvYXJkfGVufDB8fDB8fHww"],
+  },
+  {
+    title: "LED Desk Lamp",
+    description: "Adjustable brightness with touch control.",
+    price: 1099,
+    category: "Beauty",
+    imageUrls: ["https://images.unsplash.com/photo-1621177555630-b861919c864f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGxhbXB8ZW58MHx8MHx8fDA%3D"],
+  },
+  {
+    title: "USB-C Charger",
+    description: "Fast charging adapter",
+    price: 499,
+    category: "Computers",
+    imageUrls: ["https://images.unsplash.com/photo-1586254116951-5263e2cdb44c?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+
+  }
+];

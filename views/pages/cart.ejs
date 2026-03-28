@@ -1,0 +1,369 @@
+<% layout("layout/boilerplate") -%>
+
+  <link rel="stylesheet" href="/css/cart.css" />
+
+  <%
+    const items = Array.isArray(cartItems) ? cartItems : [];
+    const recommendations = Array.isArray(recommendedProducts) ? recommendedProducts : [];
+    const hasItems = items.length > 0;
+    const amount = (value) => {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : 0;
+    };
+    const formatMoney = (value) => amount(value).toLocaleString("en-IN");
+    const itemCount = typeof cartCount === "number"
+      ? cartCount
+      : items.reduce((total, item) => total + Math.max(Number(item.quantity) || 0, 0), 0);
+    const subtotal = amount(summary && summary.subtotal);
+    const shipping = amount(summary && summary.shipping);
+    const tax = amount(summary && summary.tax);
+    const total = amount(summary && summary.total);
+    const freeShippingTarget = 3000;
+    const freeShippingGap = Math.max(freeShippingTarget - subtotal, 0);
+    const currentCartPath = currentPath || "/Ecommerce/home/cart";
+    const upiValue = typeof upiId === "string" ? upiId.trim() : "";
+    const upiAmount = amount(total).toFixed(2);
+    const upiPaymentUrl = upiValue
+      ? ("upi://pay?pa=" + encodeURIComponent(upiValue) + "&pn=" + encodeURIComponent("E-Commerce Store") + "&am=" + encodeURIComponent(upiAmount) + "&cu=INR")
+      : "";
+  %>
+
+  <main class="cart-page">
+    <section class="cart-hero">
+      <div class="row g-4 align-items-stretch">
+        <div class="col-12 col-lg-8">
+          <div class="card cart-hero-card shadow-sm h-100">
+            <div class="card-body p-4 p-lg-5">
+              <div class="cart-kicker">
+                <span class="cart-kicker-dot"></span>
+                Your bag, ready when you are
+              </div>
+              <h1 class="display-6 fw-bold mt-3 mb-3">Cart</h1>
+              <p class="cart-hero-copy mb-4">
+                <% if (hasItems) { %>
+                  Review your picks, keep track of savings, and move to checkout whenever you are ready.
+                <% } else { %>
+                  Your cart is empty right now, but the next great find is probably one scroll away.
+                <% } %>
+              </p>
+
+              <div class="d-flex flex-wrap gap-2">
+                <span class="cart-stat-pill">
+                  <i class="fa-solid fa-bag-shopping"></i>
+                  <%= itemCount %> <%= itemCount === 1 ? "item" : "items" %>
+                </span>
+                <span class="cart-stat-pill">
+                  <i class="fa-solid fa-truck-fast"></i>
+                  <%= hasItems ? "Fast delivery available" : "Delivery estimates at checkout" %>
+                </span>
+                <span class="cart-stat-pill">
+                  <i class="fa-solid fa-shield-heart"></i>
+                  Secure order support
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div class="card cart-progress-card shadow-sm h-100">
+            <div class="card-body p-4">
+              <div class="cart-section-eyebrow">Checkout flow</div>
+              <h2 class="h5 mb-3">What comes next</h2>
+
+              <div class="cart-step-list">
+                <div class="cart-step-item <%= hasItems ? 'is-active' : 'is-current' %>">
+                  <span class="cart-step-index">1</span>
+                  <div>
+                    <div class="cart-step-title">Bag review</div>
+                    <div class="cart-step-copy">
+                      <%= hasItems ? "Items ready for checkout" : "Add products to get started" %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cart-step-item">
+                  <span class="cart-step-index">2</span>
+                  <div>
+                    <div class="cart-step-title">Address</div>
+                    <div class="cart-step-copy">Choose delivery details</div>
+                  </div>
+                </div>
+
+                <div class="cart-step-item">
+                  <span class="cart-step-index">3</span>
+                  <div>
+                    <div class="cart-step-title">Payment</div>
+                    <div class="cart-step-copy">Secure final confirmation</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cart-progress-note mt-4">
+                <i class="fa-solid fa-circle-check"></i>
+                Free shipping on orders above ₹<%= formatMoney(freeShippingTarget) %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <% if (hasItems) { %>
+      <section class="pb-5">
+        <div class="row g-4 align-items-start">
+          <div class="col-12 col-xl-8">
+            <div class="cart-items-stack">
+              <% items.forEach((item) => { %>
+                <article class="card cart-item-card shadow-sm">
+                  <div class="row g-0 align-items-stretch">
+                    <div class="col-12 col-md-4 col-lg-3">
+                      <div class="cart-item-media <%= item.imageUrl ? 'has-image' : '' %>">
+                        <% if (item.imageUrl) { %>
+                          <img class="cart-item-image" src="<%= item.imageUrl %>" alt="<%= item.title %>">
+                        <% } else { %>
+                          <div class="cart-item-fallback">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                          </div>
+                        <% } %>
+
+                        <% if (item.category) { %>
+                          <span class="cart-item-category"><%= item.category %></span>
+                        <% } %>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-md-8 col-lg-9">
+                      <div class="card-body p-4 h-100 d-flex flex-column">
+                        <div class="d-flex flex-wrap justify-content-between gap-3">
+                          <div>
+                            <h2 class="h5 cart-item-title mb-2"><%= item.title %></h2>
+                            <p class="cart-item-desc mb-0">
+                              <%= item.description || "A solid pick for your next order." %>
+                            </p>
+                          </div>
+
+                          <div class="text-md-end">
+                            <div class="cart-item-line-total">₹<%= formatMoney(item.lineTotal) %></div>
+                            <div class="cart-item-unit">₹<%= formatMoney(item.price) %> each</div>
+                          </div>
+                        </div>
+
+                        <div class="mt-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+                          <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <div class="cart-qty-controls" aria-label="Quantity controls">
+                              <form action="/Ecommerce/home/cart/item/<%= item.productId %>/decrease" method="POST">
+                                <input type="hidden" name="returnTo" value="<%= currentCartPath %>">
+                                <button class="btn cart-qty-btn" type="submit" aria-label="Decrease quantity">
+                                  <i class="fa-solid fa-minus"></i>
+                                </button>
+                              </form>
+                              <span class="cart-qty-value">Qty <%= item.quantity %></span>
+                              <form action="/Ecommerce/home/cart/item/<%= item.productId %>/increase" method="POST">
+                                <input type="hidden" name="returnTo" value="<%= currentCartPath %>">
+                                <button class="btn cart-qty-btn" type="submit" aria-label="Increase quantity">
+                                  <i class="fa-solid fa-plus"></i>
+                                </button>
+                              </form>
+                            </div>
+                            <span class="cart-chip">
+                              <i class="fa-solid fa-truck-fast"></i>
+                              Delivery in 1-3 days
+                            </span>
+                          </div>
+
+                          <div class="d-flex flex-wrap gap-2">
+                            <form action="/Ecommerce/home/cart/item/<%= item.productId %>/remove" method="POST">
+                              <input type="hidden" name="returnTo" value="<%= currentCartPath %>">
+                              <button class="btn btn-outline-danger btn-sm" type="submit">
+                                <i class="fa-solid fa-trash-can me-2"></i>Remove
+                              </button>
+                            </form>
+                            <a class="btn btn-outline-light btn-sm"
+                              href="/Ecommerce/home/products<%= item.category ? ('?category=' + encodeURIComponent(item.category)) : '' %>">
+                              Browse similar
+                            </a>
+                            <a class="btn btn-outline-primary btn-sm" href="/Ecommerce/home/products">
+                              Add more
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              <% }) %>
+            </div>
+          </div>
+
+          <div class="col-12 col-xl-4">
+            <aside class="card cart-summary-card shadow-sm">
+              <div class="card-body p-4">
+                <div class="cart-section-eyebrow">Order summary</div>
+                <h2 class="h4 mb-4">Almost there</h2>
+
+                <div class="cart-summary-row">
+                  <span>Items (<%= itemCount %>)</span>
+                  <strong>₹<%= formatMoney(subtotal) %></strong>
+                </div>
+                <div class="cart-summary-row">
+                  <span>Shipping</span>
+                  <strong><%= shipping === 0 ? "Free" : ("₹" + formatMoney(shipping)) %></strong>
+                </div>
+                <div class="cart-summary-row">
+                  <span>Taxes</span>
+                  <strong>₹<%= formatMoney(tax) %></strong>
+                </div>
+
+                <div class="cart-summary-divider"></div>
+
+                <div class="cart-summary-row cart-summary-total">
+                  <span>Total</span>
+                  <strong>₹<%= formatMoney(total) %></strong>
+                </div>
+
+                <div class="cart-summary-banner">
+                  <% if (freeShippingGap > 0) { %>
+                    Add ₹<%= formatMoney(freeShippingGap) %> more to unlock free shipping.
+                  <% } else { %>
+                    Free shipping unlocked for this order.
+                  <% } %>
+                </div>
+
+                <% if (upiPaymentUrl) { %>
+                  <a class="btn btn-primary btn-lg w-100 mt-2" href="<%= upiPaymentUrl %>">
+                    <i class="fa-solid fa-mobile-screen-button me-2"></i>Pay ₹<%= formatMoney(total) %> via UPI
+                  </a>
+                <% } else { %>
+                  <button class="btn btn-primary btn-lg w-100 mt-2" type="button">
+                    Proceed to checkout
+                  </button>
+                <% } %>
+                <a class="btn btn-outline-light w-100 mt-2" href="/Ecommerce/home/products">
+                  Continue shopping
+                </a>
+
+                <% if (upiValue) { %>
+                  <div class="cart-payment-card">
+                    <div class="cart-payment-head">
+                      <div>
+                        <div class="cart-section-eyebrow">Payment</div>
+                        <h3 class="h6 mb-1">UPI checkout</h3>
+                      </div>
+                      <span class="cart-payment-pill">Live</span>
+                    </div>
+
+                    <div class="cart-payment-row">
+                      <span>UPI ID</span>
+                      <strong><%= upiValue %></strong>
+                    </div>
+                    <div class="cart-payment-row">
+                      <span>Payable amount</span>
+                      <strong>₹<%= formatMoney(total) %></strong>
+                    </div>
+                    <div class="cart-payment-copy">
+                      Open any UPI app and pay to this ID, or tap the UPI button above on mobile.
+                    </div>
+                  </div>
+                <% } %>
+
+                <div class="cart-benefits">
+                  <div class="cart-benefit-item">
+                    <i class="fa-solid fa-lock"></i>
+                    Protected payment support
+                  </div>
+                  <div class="cart-benefit-item">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Easy returns on eligible items
+                  </div>
+                  <div class="cart-benefit-item">
+                    <i class="fa-solid fa-headset"></i>
+                    Help available after purchase
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    <% } else { %>
+      <section class="pb-5">
+        <div class="card cart-empty-card shadow-sm mt-4">
+          <div class="card-body p-4 p-lg-5 text-center">
+            <div class="cart-empty-icon">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <h2 class="h3 mb-3">Your cart is feeling light</h2>
+            <p class="cart-empty-copy mx-auto mb-4">
+              Add products from electronics, fashion, beauty, and more to see them here. Once you do,
+              your summary and checkout steps will appear automatically.
+            </p>
+
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+              <a class="btn btn-primary btn-lg" href="/Ecommerce/home/products">
+                Explore products
+              </a>
+              <a class="btn btn-outline-light btn-lg" href="/Ecommerce/home">
+                Back to home
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    <% } %>
+
+    <% if (recommendations.length) { %>
+      <section class="cart-recommendations pb-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3">
+          <div>
+            <div class="cart-section-eyebrow">Recommended now</div>
+            <h2 class="h4 mb-1"><%= hasItems ? "Add one more favorite" : "Start with these picks" %></h2>
+            <div class="text-body-secondary small">Fresh products from the store</div>
+          </div>
+
+          <a class="btn btn-outline-light btn-sm" href="/Ecommerce/home/products">See all products</a>
+        </div>
+
+        <div class="row g-3">
+          <% recommendations.forEach((product) => { %>
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+              <article class="card cart-product-card shadow-sm h-100">
+                <div class="cart-product-media <%= product.imageUrls && product.imageUrls.length ? 'has-image' : '' %>">
+                  <% if (product.imageUrls && product.imageUrls.length) { %>
+                    <img class="cart-product-image" src="<%= product.imageUrls[0] %>" alt="<%= product.title %>">
+                  <% } else { %>
+                    <div class="cart-product-fallback">
+                      <i class="fa-solid fa-store"></i>
+                    </div>
+                  <% } %>
+
+                  <% if (product.category) { %>
+                    <span class="cart-product-category"><%= product.category %></span>
+                  <% } %>
+                </div>
+
+                <div class="card-body p-3 d-flex flex-column">
+                  <div class="d-flex justify-content-between gap-3 align-items-start">
+                    <h3 class="h6 mb-0 cart-product-title"><%= product.title %></h3>
+                    <div class="cart-product-price">₹<%= formatMoney(product.price) %></div>
+                  </div>
+
+                  <p class="cart-product-desc mt-2 mb-3">
+                    <%= product.description || "Top pick from the latest arrivals." %>
+                  </p>
+
+                  <form class="mt-auto d-grid" action="/Ecommerce/home/cart/add/<%= product._id %>" method="POST">
+                    <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="returnTo" value="<%= currentCartPath %>">
+                    <button class="btn btn-outline-primary btn-sm" type="submit">
+                      <i class="fa-solid fa-cart-plus me-2"></i>Add to cart
+                    </button>
+                  </form>
+                </div>
+              </article>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+    <% } %>
+  </main>

@@ -1,0 +1,111 @@
+<% layout("layout/boilerplate") -%>
+
+  <link rel="stylesheet" href="/css/product.css" />
+
+  <main class="products-page">
+    <header class="container products-hero">
+      <div class="d-flex flex-wrap justify-content-between align-items-end gap-3">
+        <div>
+          <h1 class="h3 mb-1">Explore Products</h1>
+          <div class="text-body-secondary small">
+            <%= typeof total==="number" ? total : (Array.isArray(products) ? products.length : 0) %> items available
+          </div>
+        </div>
+
+        <form class="products-search" role="search" action="/Ecommerce/home/products" method="GET">
+          <% if (category) { %>
+            <input type="hidden" name="category" value="<%= category %>">
+            <% } %>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input class="form-control" name="q" type="search" placeholder="Search products..."
+                  value="<%= q || '' %>">
+                <button class="btn btn-primary" type="submit">Search</button>
+              </div>
+        </form>
+      </div>
+
+      <div class="products-filters mt-3">
+        <a class="badge rounded-pill text-bg-dark text-decoration-none <%= !category ? 'active' : '' %>"
+          href="/Ecommerce/home/products<%= q ? ('?q=' + encodeURIComponent(q)) : '' %>">
+          All
+        </a>
+
+        <% (Array.isArray(categories) ? categories : []).forEach((c)=> { %>
+          <a class="badge rounded-pill text-bg-dark text-decoration-none <%= category === c ? 'active' : '' %>"
+            href="/Ecommerce/home/products?<%= 'category=' + encodeURIComponent(c) + (q ? ('&q=' + encodeURIComponent(q)) : '') %>">
+            <%= c %>
+          </a>
+          <% }) %>
+      </div>
+    </header>
+
+    <section class="container pb-5">
+      <% const items=Array.isArray(products) ? products : []; %>
+
+        <% if (items.length===0) { %>
+          <div class="alert alert-secondary mt-4 mb-0">No products found.</div>
+          <% } else { %>
+            <div class="row g-3 mt-2">
+              <% items.forEach((p)=> { %>
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                  <div class="card product-card h-100 shadow-sm">
+                    <div class="product-media <%= (p.imageUrls && p.imageUrls.length) ? 'has-image' : '' %>">
+                      <% if (p.imageUrls && p.imageUrls.length) { %>
+                        <img class="product-img" src="<%= p.imageUrls[0] %>" alt="<%= p.title %>">
+                        <% } else { %>
+                          <div class="product-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+                          <% } %>
+                            <% if (p.category) { %>
+                              <span class="product-chip">
+                                <%= p.category %>
+                              </span>
+                              <% } %>
+                    </div>
+
+                    <div class="card-body p-3 d-flex flex-column">
+                      <div class="d-flex justify-content-between align-items-start gap-2">
+                        <div class="fw-semibold product-title">
+                          <%= p.title %>
+                        </div>
+                        <div class="product-price">
+                          ₹<%= (typeof p.price==='number' ? p.price : Number(p.price || 0)).toLocaleString('en-IN') %>
+                        </div>
+                      </div>
+                      <div class="text-body-secondary small mt-1 product-desc">
+                        <%= p.description || '' %>
+                      </div>
+
+                      <form class="mt-auto pt-3 d-grid gap-2" action="/Ecommerce/home/cart/add/<%= p._id %>" method="POST">
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="hidden" name="returnTo" value="<%= currentPath || '/Ecommerce/home/products' %>">
+                        <button class="btn btn-outline-primary btn-sm" type="submit">
+                          <i class="fa-solid fa-cart-plus me-2"></i>Add to cart
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+            </div>
+
+            <% if (totalPages && totalPages> 1) { %>
+              <nav class="mt-4" aria-label="Products pagination">
+                <ul class="pagination justify-content-center mb-0">
+                  <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+                    <a class="page-link"
+                      href="/Ecommerce/home/products?<%= (category ? ('category=' + encodeURIComponent(category) + '&') : '') + (q ? ('q=' + encodeURIComponent(q) + '&') : '') + 'page=' + Math.max(page - 1, 1) %>">Prev</a>
+                  </li>
+                  <li class="page-item disabled">
+                    <span class="page-link">Page <%= page %> / <%= totalPages %></span>
+                  </li>
+                  <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
+                    <a class="page-link"
+                      href="/Ecommerce/home/products?<%= (category ? ('category=' + encodeURIComponent(category) + '&') : '') + (q ? ('q=' + encodeURIComponent(q) + '&') : '') + 'page=' + Math.min(page + 1, totalPages) %>">Next</a>
+                  </li>
+                </ul>
+              </nav>
+              <% } %>
+                <% } %>
+    </section>
+  </main>
