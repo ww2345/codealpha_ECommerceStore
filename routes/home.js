@@ -67,8 +67,8 @@ async function buildCartState(req) {
 
   const products = productIds.length
     ? await Product.find({ _id: { $in: productIds } })
-        .select("title description price category imageUrls")
-        .lean()
+      .select("title description price category imageUrls")
+      .lean()
     : [];
 
   const productMap = new Map(products.map((product) => [String(product._id), product]));
@@ -110,7 +110,7 @@ async function buildCartState(req) {
   }));
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.lineTotal, 0);
-  const shipping = cartItems.length ? (subtotal >= 3000 ? 0 : 99) : 0;
+  const shipping = cartItems.length ? (subtotal >= 3000 ? 0 : 0) : 0;
   const tax = Math.round(subtotal * 0.08);
   const total = subtotal + shipping + tax;
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
