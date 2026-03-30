@@ -110,7 +110,7 @@ async function buildCartState(req) {
   }));
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.lineTotal, 0);
-  const shipping = cartItems.length ? (subtotal >= 3000 ? 0 : 0) : 0;
+  const shipping = cartItems.length ? (subtotal >= 0 ? 0 : 99) : 0;
   const tax = Math.round(subtotal * 0.08);
   const total = subtotal + shipping + tax;
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
