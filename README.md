@@ -156,5 +156,5 @@ The current codebase works, but there are a few setup details worth knowing:
 - The session secret is hardcoded in `app.js`.
 - The server port is hardcoded to `3000`.
 - The cart is stored in the session, not in MongoDB, so it is tied to the current session.
-- A UPI payment ID is hardcoded in the cart route for checkout UI.
+- A UPI payment ID is hardcoded in the cart route for checkout UI
 
